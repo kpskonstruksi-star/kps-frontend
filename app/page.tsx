@@ -135,8 +135,6 @@ export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [logoMissing, setLogoMissing] = useState(false);
-  const [apiData, setApiData] = useState<{ message?: string; status?: string } | null>(null);
-  const [apiError, setApiError] = useState(false);
   const [welcomeOpen, setWelcomeOpen] = useState(false);
   const [contactPage, setContactPage] = useState({
     name: "",
@@ -198,13 +196,6 @@ export default function HomePage() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    fetch(`${API_BASE}/api/data`)
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((data) => setApiData(data))
-      .catch(() => setApiError(true));
   }, []);
 
   useEffect(() => {
@@ -385,13 +376,6 @@ export default function HomePage() {
           ))}
         </nav>
         <div className="topbar-actions">
-          <span
-            className={`api-status ${apiData ? "api-status-ok" : apiError ? "api-status-err" : "api-status-pending"}`}
-            title={apiData?.message ?? (apiError ? "Gagal terhubung ke server" : "Menghubungkan…")}
-          >
-            <span className="api-status-dot" aria-hidden />
-            {apiData ? "Server aktif" : apiError ? "Offline" : "…"}
-          </span>
           <button className="primary-btn" type="button" onClick={openConsultation}>
             Konsultasi Gratis
           </button>
@@ -439,13 +423,8 @@ export default function HomePage() {
         <div className="hero-grid">
           <div className="hero-copy">
             <p className="section-tag">Kontraktor & Konsultan Bangunan</p>
-            {apiData?.message ? (
-              <p className="hero-api-hint" role="status">
-                {apiData.message}
-              </p>
-            ) : null}
             <h1>
-              Solusi <span>Bangun</span> Berkualitas
+              Solusi <span>Bangun Murah</span> Berkualitas
             </h1>
             <p>
               KPS Konstruksi hadir memberikan solusi pembangunan, renovasi, dan desain interior dengan hasil rapi,
@@ -612,8 +591,9 @@ export default function HomePage() {
                 Alamat: Jalan Brigjen Katamso VI/214, Rt.14 / Rw.02, Desa Janti, Kec. Waru, Kab. Sidoarjo — Jawa Timur
               </li>
               <li>
-                <strong>Contact person:</strong> Ketut Kampil —{" "}
-                <a href="tel:+6281357019928">0813 5701 9928</a>
+                <strong>Contact person:</strong>
+                <br />
+                Ketut Kampil — <a href="tel:+6281357019928">0813 5701 9928</a>
               </li>
               <li>
                 Kaji Dori — <a href="tel:+628965056464">0896 6505 6464</a>
